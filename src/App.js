@@ -21,17 +21,17 @@ function App() {
           throw new Error('jkkl')
         }
         const data = await response.json()
-        const transformedMovies = data.result.map((movie) => {
-          return {
-            id: movie.properties.episode_id,
-            title: movie.properties.title,
-            openingText: movie.properties.opening_crawl,
-            releaseDate: movie.properties.release_date
-          }
-        })
-        setMovies(transformedMovies)
-        console.log(transformedMovies);
-        console.log(data.result);
+        const loadedMovies=[]
+        for(let key in data){
+          loadedMovies.push({
+            id:key,
+            title:data[key].title,
+            openingText:data[key].openingText,
+            releaseDate:data[key].releaseDate
+          })
+        }
+        setMovies(loadedMovies)
+      console.log(loadedMovies);
       } catch (error) {
         setError(error.message)
       }
@@ -59,7 +59,7 @@ const response=await fetch(`${BASE_URL}/movies.json`,{
   method:'POST',
   body:JSON.stringify(movie),
   headers:{
-    'Contex-type':'application/json'
+    'Content-type':'application/json'
   }
 })
   }
